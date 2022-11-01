@@ -28,7 +28,7 @@ $(NAME): $(OBJS_MANDATORY) $(LIBFT)
 	$(CC) $(OBJS_MANDATORY) $(LIBS) -o $(NAME)
 
 $(OBJS_DIR)/$(MANDATORY_DIR)/%.o: $(SRC_DIR)/$(MANDATORY_DIR)/%.c
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	$(CC) $(CCF_STRICT) $(CCF_INCL_MANDATORY) -c $< -o $@
 
 ################################################################################
