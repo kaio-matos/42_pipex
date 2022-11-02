@@ -3,18 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: kaio <kaio@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:03:01 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/01 01:06:14 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:17:18 by kaio             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	main(int argc, char **argv)
+void	validate_input(int argc, char **argv);
+
+int	main(int argc, char **argv, char **envp)
 {
-	ft_printf("argc - %i\n", argc);
-	ft_printf("argv - %s\n", argv[0]);
+	validate_input(argc, argv);
+	execve("/bin/ls", argv, envp);
 	return (0);
+}
+
+void	validate_input(int argc, char **argv)
+{
+	if (argc != 5)
+		ft_throw_error("Please insert four arguments.");
+	if (!argv)
+		ft_throw_error("Bad argument.");
 }
