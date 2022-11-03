@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaio <kaio@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 00:06:38 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/01 20:30:28 by kaio             ###   ########.fr       */
+/*   Updated: 2022/11/03 20:58:36 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static void	free_memory(void **memory, int memory_nodes);
-static void	*push_memory(void **memory,
-								void *payload, int memory_nodes);
+static void	*push_memory(void **memory, void *payload, int memory_nodes);
 
 void	ft_memory(enum e_memory_actions action, void *payload)
 {
@@ -47,8 +46,7 @@ static void	free_memory(void **memory, int memory_nodes)
 	free(memory);
 }
 
-static void	*push_memory(void **memory,
-								void *payload, int memory_nodes)
+static void	*push_memory(void **memory, void *payload, int memory_nodes)
 {
 	void	**temporary;
 	int		new_space_to_allocate;

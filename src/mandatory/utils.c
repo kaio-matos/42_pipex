@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_salloc.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 02:51:25 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 20:57:38 by kmatos-s         ###   ########.fr       */
+/*   Created: 2022/11/03 20:30:47 by kmatos-s          #+#    #+#             */
+/*   Updated: 2022/11/03 20:30:57 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-void	*ft_salloc(size_t size)
+int	ft_chrcnt(char *string, char c)
 {
-	void	*mem;
+	int	counter;
 
-	mem = malloc(size);
-	if (!mem && size > 0)
-		ft_throw_error("MEMORY ALLOCATION ERROR");
-	return (mem);
+	counter = 0;
+	while (*string)
+	{
+		if (*string == c)
+			counter++;
+		string++;
+	}
+	return (counter);
 }

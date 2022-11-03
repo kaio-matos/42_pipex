@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_salloc.c                                        :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 02:51:25 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 20:57:38 by kmatos-s         ###   ########.fr       */
+/*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
+/*   Updated: 2022/11/03 20:54:51 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-void	*ft_salloc(size_t size)
+void	pipex(char *infile, char **commands,
+			char *outfile, char *path)
 {
-	void	*mem;
-
-	mem = malloc(size);
-	if (!mem && size > 0)
-		ft_throw_error("MEMORY ALLOCATION ERROR");
-	return (mem);
+	ft_printf("\n\n%s\n", infile);
+	ft_printf("%s\n", commands[0]);
+	ft_printf("%s\n", outfile);
+	ft_printf("%s\n", path);
 }
