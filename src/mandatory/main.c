@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:03:01 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 20:00:54 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/03 20:17:49 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	main(int argc, char **argv, char **envp)
 	// char	*outfile;
 	char	**commands;
 	char	*path;
+	char	**possible_bin_paths;
+	char	*executable_path;
 	int		offset;
 
 	validate_input(argc, argv);
@@ -30,6 +32,12 @@ int	main(int argc, char **argv, char **envp)
 	commands[argc - (offset + 1)] = NULL;
 
 	path = get_var_from_env("PATH", envp);
+	possible_bin_paths = ft_split(path, ':');
+	executable_path = join_paths(possible_bin_paths[0], commands[0]);
+	int res = execve(executable_path, argv, envp);
+	ft_printf("COMMAND          %s\n", executable_path);
+	ft_printf("EXECUTION STATUS %i\n", res);
+
 
 	// while (*commands)
 	// {

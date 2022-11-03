@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 19:49:11 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/03 20:14:21 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 * PARSER 																	   *
 \******************************************************************************/
 char	*get_var_from_env(char *name, char	**envp);
+char	*join_paths(char *path1, char *path2);
 
 #endif
