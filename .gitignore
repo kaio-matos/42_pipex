@@ -1,6 +1,7 @@
 pipex
 pipex__bonus
-file
+infile
+outfile
 
 # Prerequisites
 *.d

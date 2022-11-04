@@ -6,24 +6,25 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 20:52:54 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:53:30 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 # include <libft.h>
+# include <sys/wait.h>
 
 /******************************************************************************\
 * PIPEX 																	   *
 \******************************************************************************/
 void	pipex(char *infile, char **commands,
-			char *outfile, char *path);
+			char *outfile, char *path, char **envp);
 
 /******************************************************************************\
 * PARSER 																	   *
 \******************************************************************************/
-char	*get_var_from_env(char *name, char	**envp);
+char	*get_var_from_env(char *name, char **envp);
 char	*join_paths(char *path1, char *path2);
 char	**generate_possible_bin_paths(char *path, char *bin_name);
 
