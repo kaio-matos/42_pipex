@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:35:39 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 20:58:03 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:45:31 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,25 @@ char	*join_paths(char *path1, char *path2)
 	return (result);
 }
 
-char	**generate_possible_bin_paths(char *path, char *bin_name)
+char	*get_binary_path(char *path, char *bin_name)
 {
 	char	**bin_folder_paths;
-	char	**possible_bin_paths;
+	char	*binary;
 	int		i;
 
 	i = 0;
 	bin_folder_paths = ft_split(path, ':');
-	possible_bin_paths = ft_salloc((ft_chrcnt(path, ':') + 1) * sizeof(char *));
 	while (bin_folder_paths[i])
 	{
-		possible_bin_paths[i] = join_paths(bin_folder_paths[i], bin_name);
+		binary = join_paths(bin_folder_paths[i], bin_name);
+		if (access(binary, F_OK) == 0)
+		{
+			ft_free_matrix(bin_folder_paths);
+			return (binary);
+		}
+		free(binary);
 		i++;
 	}
-	possible_bin_paths[i] = NULL;
 	ft_free_matrix(bin_folder_paths);
-	return (possible_bin_paths);
+	return (NULL);
 }

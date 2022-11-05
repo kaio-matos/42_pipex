@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:30:47 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 20:30:57 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/04 21:45:40 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,32 @@ int	ft_chrcnt(char *string, char c)
 		string++;
 	}
 	return (counter);
+}
+
+void	ft_throw_to_child(void (*f) (void))
+{
+	pid_t	pid;
+	pid_t	wait;
+	int		status;
+
+	pid = fork();
+	if (pid == -1)
+		ft_throw_error("Error during the creation of a new process");
+	if (pid == 0)
+	{
+		f();
+		exit(0);
+	}
+	else
+	{
+		wait = waitpid(pid, &status, WUNTRACED);
+		if (wait == -1)
+			ft_throw_error("PID doesn't match any process");
+		while (!WIFEXITED(status) && !WIFSIGNALED(status))
+		{
+			wait = waitpid(pid, &status, WUNTRACED);
+			if (wait == -1)
+				ft_throw_error("PID doesn't match any process");
+		}
+	}
 }

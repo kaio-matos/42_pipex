@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:03:01 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/03 21:20:05 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/04 22:08:29 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	int		offset;
 
 	validate_input(argc, argv);
+	g__enviroment()->argv;
+	g__enviroment()->envp;
 	offset = 2;
 	infile = argv[1];
 	outfile = argv[argc - 1];
@@ -31,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	path = get_var_from_env("PATH", envp);
 	if (!path)
 		ft_throw_error("Enviroment variable 'PATH' not found");
-	pipex(infile, commands, outfile, path, envp);
+	pipex(infile, commands, outfile, path);
 	return (0);
 }
 

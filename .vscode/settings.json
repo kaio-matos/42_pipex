@@ -12,7 +12,9 @@
     "random": "c",
     "so_long.h": "c",
     "mlx.h": "c",
-    "pipex.h": "c"
+    "pipex.h": "c",
+    "stdlib.h": "c",
+    "stdio.h": "c"
   },
   "42header.email": "kmatos-s@student.42sp.org.br",
   "42header.username": "kmatos-s"

@@ -17,7 +17,7 @@ RM					= rm -rf
 
 NAME				= pipex
 CCF_INCL_MANDATORY	= -I ./$(SRC_DIR)/$(MANDATORY_DIR)/includes -I $(LIBFT_DIR)
-C_FILES_MANDATORY	= main.c parser.c utils.c pipex.c
+C_FILES_MANDATORY	= main.c parser.c utils.c pipex.c enviroment.c
 FILES_MANDATORY		= $(addprefix $(MANDATORY_DIR)/,$(C_FILES_MANDATORY))
 SRCS_MANDATORY		= $(addprefix src/,$(FILES_MANDATORY))
 OBJS_MANDATORY		= $(addprefix $(OBJS_DIR)/,$(FILES_MANDATORY:.c=.o))
@@ -33,6 +33,9 @@ $(OBJS_DIR)/$(MANDATORY_DIR)/%.o: $(SRC_DIR)/$(MANDATORY_DIR)/%.c
 
 debug: $(LIBFT)
 	$(CC) $(CCF_DEBUG) $(CCF_INCL_MANDATORY) $(SRCS_MANDATORY) $(LIBS) -o $(NAME)
+
+test: $(LIBFT)
+	$(CC) $(CCF_INCL_MANDATORY) $(SRCS_MANDATORY) $(LIBS) -o $(NAME)
 
 ################################################################################
 # BONUS
