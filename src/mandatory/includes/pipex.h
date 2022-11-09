@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/04 21:59:53 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/08 22:01:13 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,19 @@
 # include <libft.h>
 # include <sys/wait.h>
 
-typedef struct s_enviroment
+typedef struct s_command
 {
 	char	**argv;
-	char	**envp;
-	char	*current_binary;
+	char	*name;
+}	t_command;
+
+t_command	parse_command_string(char *command, char *path);
+
+typedef struct s_enviroment
+{
+	char		**argv;
+	char		**envp;
+	t_command	command;
 }	t_enviroment;
 
 t_enviroment	*g__enviroment(void);

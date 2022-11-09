@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/08 21:02:04 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/08 22:04:07 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ static	void	try_to_execute(void)
 {
 	int	result;
 
-	result = execve(g__enviroment()->current_binary, g__enviroment()->argv, g__enviroment()->envp);
+	ft_printf("g__enviroment()->command.name: %s\n", g__enviroment()->command.name);
+	ft_printf("g__enviroment()->command.argv: ");
+	ft_printf_mtx(g__enviroment()->command.argv);
+	result = execve(g__enviroment()->command.argv[0], g__enviroment()->command.argv, g__enviroment()->envp);
 	if (!result)
 		ft_throw_error("Couldn't execute binary");
 }
@@ -43,16 +46,12 @@ static	int	switch_stdout_write(int active)
 void	pipex(char *infile_name, char **commands, char *outfile_name, char *path)
 {
 	char	*infile;
-	char	*command;
 	int		read_pipede;
 
 	infile = ft_read_file(infile_name);
-	command = commands[0];
-	g__enviroment()->current_binary = get_binary_path(path, command);
-	if (!g__enviroment()->current_binary)
-		ft_throw_error("Command Not Found");
-	read_pipede = switch_stdout_write(1);
+	g__enviroment()->command = parse_command_string(commands[0], path);
+	// read_pipede = switch_stdout_write(1);
 	ft_throw_to_child(&try_to_execute);
-	switch_stdout_write(0);
-	ft_printf(ft_read_file_fd(read_pipede));
+	// switch_stdout_write(0);
+	// ft_printf(ft_read_file_fd(read_pipede));
 }
