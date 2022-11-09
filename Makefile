@@ -6,7 +6,7 @@ BONUS_DIR			= bonus
 
 CC					= cc
 CCF_STRICT			= -Wall -Wextra -Werror
-CCF_DEBUG			= -Wall -Wextra -Werror -g
+CCF_DEBUG			= -g
 LIBFT				= $(LIBFT_DIR)/libft.a
 LIBS				= $(LIBFT)
 RM					= rm -rf
@@ -34,8 +34,9 @@ $(OBJS_DIR)/$(MANDATORY_DIR)/%.o: $(SRC_DIR)/$(MANDATORY_DIR)/%.c
 debug: $(LIBFT)
 	$(CC) $(CCF_DEBUG) $(CCF_INCL_MANDATORY) $(SRCS_MANDATORY) $(LIBS) -o $(NAME)
 
-test: $(LIBFT)
-	$(CC) $(CCF_INCL_MANDATORY) $(SRCS_MANDATORY) $(LIBS) -o $(NAME)
+test:
+	@make all -C $(LIBFT_DIR) --no-print-directory
+	@$(CC) $(CCF_INCL_MANDATORY) $(SRCS_MANDATORY) $(LIBS) -o $(NAME)
 
 ################################################################################
 # BONUS

@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:03:01 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/04 22:08:29 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/07 21:54:15 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	int		offset;
 
 	validate_input(argc, argv);
-	g__enviroment()->argv;
-	g__enviroment()->envp;
+	g__enviroment()->argv = argv;
+	g__enviroment()->envp = envp;
 	offset = 2;
 	infile = argv[1];
 	outfile = argv[argc - 1];

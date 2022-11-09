@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kaio <kaio@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:44:33 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/01 20:29:27 by kaio             ###   ########.fr       */
+/*   Updated: 2022/11/08 19:22:28 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <stdlib.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <stdarg.h>
 # include <fcntl.h>

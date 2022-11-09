@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:35:39 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/04 21:45:31 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/08 19:42:59 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_binary_path(char *path, char *bin_name)
 	while (bin_folder_paths[i])
 	{
 		binary = join_paths(bin_folder_paths[i], bin_name);
-		if (access(binary, F_OK) == 0)
+		if (access(binary, X_OK) == 0)
 		{
 			ft_free_matrix(bin_folder_paths);
 			return (binary);
