@@ -16,7 +16,7 @@ ft_strmapi.c ft_striteri.c
 
 OTHERS_SRCS = ft_mtxiteri.c ft_mtxdup.c ft_mtxpush.c ft_mtxlen.c
 
-WRITE_SRCS = write/ft_putchar.c write/ft_putchar_fd.c write/ft_putendl_fd.c write/ft_putnbase.c write/ft_putnbr_fd.c write/ft_putstr.c write/ft_putstr_fd.c write/ft_putstrn.c
+WRITE_SRCS = write/ft_putchar.c write/ft_putchar_fd.c write/ft_putendl_fd.c write/ft_putnbase_fd.c write/ft_putnbase.c write/ft_putnbr_fd.c write/ft_putstr.c write/ft_putstr_fd.c write/ft_putstrn_fd.c write/ft_putstrn.c
 
 GET_NEXT_LINE_SRCS = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 

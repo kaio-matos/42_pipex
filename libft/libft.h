@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:44:33 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/09 20:30:27 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/15 23:51:29 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,16 +411,18 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
  *
  * @param c The character to output.
  * @param fd The file descriptor on which to write.
+ * @return Number of written bytes
  */
-void	ft_putchar_fd(char c, int fd);
+int		ft_putchar_fd(char c, int fd);
 
 /**
  * @brief Outputs the string ’s’ to the given file descriptor.
  *
  * @param s The string to output.
  * @param fd  The file descriptor on which to write.
+ * @return Number of written bytes
  */
-void	ft_putstr_fd(char *s, int fd);
+int		ft_putstr_fd(char *s, int fd);
 
 /**
  * @brief Outputs the string ’s’ to the
@@ -477,22 +479,25 @@ typedef struct s_slot
 }	t_slot;
 
 int		ft_printf(const char *str, ...);
-int		deal_args(t_slot finded, va_list args, int printed);
+int		ft_fprintf(int fd, const char *str, ...);
+int		deal_args(t_slot finded, va_list args, int printed, int fd);
 
 int		ft_putchar(char c);
 int		ft_putstrn(char	*str, int n);
+int		ft_putstrn_fd(char *str, int n, int fd);
 int		ft_putstr(char	*str);
 int		ft_putnbase(unsigned long long nb, char *base);
+int		ft_putnbase_fd(unsigned long long nb, char *base, int fd);
 
-int		deal_with_c(char arg);
-int		deal_with_d(int arg);
-int		deal_with_i(int arg);
-int		deal_with_p(long long int arg);
-int		deal_with_s(char *arg);
-int		deal_with_u(unsigned int arg);
-int		deal_with_x(unsigned int arg);
-int		deal_with_x_upper(unsigned int arg);
-int		deal_with_percent(char arg);
+int		deal_with_c(char arg, int fd);
+int		deal_with_d(int arg, int fd);
+int		deal_with_i(int arg, int fd);
+int		deal_with_p(long long int arg, int fd);
+int		deal_with_s(char *arg, int fd);
+int		deal_with_u(unsigned int arg, int fd);
+int		deal_with_x(unsigned int arg, int fd);
+int		deal_with_x_upper(unsigned int arg, int fd);
+int		deal_with_percent(char arg, int fd);
 
 /**
  * @brief Checks if a determined character is a printf conversion

@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_mtxlen.c                                        :+:      :+:    :+:   */
+/*   ft_putstrn_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 20:28:05 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/15 23:54:46 by kmatos-s         ###   ########.fr       */
+/*   Created: 2022/09/20 01:30:42 by kmatos-s          #+#    #+#             */
+/*   Updated: 2022/11/15 23:37:47 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
-int	ft_mtxlen(char **mtx)
+int	ft_putstrn_fd(char *str, int n, int fd)
 {
-	int	i;
+	int			i;
+	int			printed;
 
 	i = 0;
-	while (mtx && mtx[i])
+	printed = 0;
+	while (*str && i < n)
+	{
+		printed += ft_putchar_fd(str[i], fd);
 		i++;
-	return (i);
+	}
+	return (printed);
 }

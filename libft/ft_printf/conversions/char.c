@@ -6,13 +6,13 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 02:18:29 by coder             #+#    #+#             */
-/*   Updated: 2022/09/20 01:32:38 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/15 23:41:19 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-int	deal_with_c(char arg)
+int	deal_with_c(char arg, int fd)
 {
-	return (ft_putchar(arg));
+	return (ft_putchar_fd(arg, fd));
 }
