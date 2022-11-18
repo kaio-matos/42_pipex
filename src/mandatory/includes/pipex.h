@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/17 19:15:22 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:34:52 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,8 @@ char	*get_binary_path(char *path, char *bin_name);
 \******************************************************************************/
 int		ft_chrcnt(char *string, char c);
 void	ft_throw_to_child(void (*f) (void));
+void	ft_error(char *message);
+void	ft_exit_error(char *message, int number);
+void	ft_error_message(char *message, char *argument);
 
 #endif
