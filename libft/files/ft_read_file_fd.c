@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 20:02:44 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/01 20:02:49 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:34:01 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 
 char	*ft_read_file_fd(int fd)
 {
-	char	*accumulator;
-	char	*current_line;
-	char	*temp;
+	char	*file;
+	char	buffer[25];
+	size_t	bytes;
 
-	current_line = get_next_line(fd, 25);
-	if (!current_line)
+	file = NULL;
+	ft_bzero(buffer, 25);
+	bytes = read(fd, buffer, 24);
+	if (!bytes)
 		return (NULL);
-	accumulator = ft_strdup("");
-	while (current_line && *current_line)
+	file = ft_strljoin(file, buffer, bytes);
+	while (bytes == 24)
 	{
-		temp = accumulator;
-		accumulator = ft_strjoin(accumulator, current_line);
-		free(current_line);
-		free(temp);
-		current_line = get_next_line(fd, 25);
+		bytes = read(fd, buffer, 24);
+		if (!bytes)
+			break ;
+		buffer[25] = 0;
+		file = ft_strljoin(file, buffer, ft_strlen(file) + bytes);
 	}
-	return (accumulator);
+	return (file);
 }

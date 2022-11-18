@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:56:44 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/09/20 02:43:36 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/17 20:39:36 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	deal_with_rest(char **rest, int new_stored)
 
 char	*get_next_line(int fd, int BUFFER_SIZE)
 {
-	static char	*rest;
+	static char	*rest[1024];
 	char		*buffer;
 	char		*str;
 	int			bytes;
@@ -74,11 +74,11 @@ char	*get_next_line(int fd, int BUFFER_SIZE)
 		return (NULL);
 	str = NULL;
 	bytes = read(fd, buffer, BUFFER_SIZE);
-	while (bytes > 0 || ft_strlen(rest))
+	while (bytes > 0 || ft_strlen(rest[fd]))
 	{
 		buffer[bytes] = '\0';
-		rest = ft_strljoin(rest, buffer, ft_strlen(rest) + bytes);
-		if (deal_with_rest(&rest, concatenate(&str, rest)) == -1)
+		rest[fd] = ft_strljoin(rest[fd], buffer, ft_strlen(rest[fd]) + bytes);
+		if (deal_with_rest(&rest[fd], concatenate(&str, rest[fd])) == -1)
 			return (NULL);
 		if (ft_strchr(str, '\n'))
 			break ;
