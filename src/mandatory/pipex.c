@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/17 21:49:18 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:59:29 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	pipex(char *infile_name, char **commands, char *outfile_name, char *path)
 	ft_fprintf(stdin_fd, infile);
 	switch_stdin_write(0);
 	output = execute_commands(commands, path);
-	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY, 0664);
+	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (!outfile_fd)
 		ft_throw_error("File could not be created or open");
 	ft_fprintf(outfile_fd, output);
