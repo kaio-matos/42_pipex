@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/14 21:33:55 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:15:22 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_enviroment
 {
 	char		**argv;
 	char		**envp;
-	int			current;
 	t_command	command;
 }	t_enviroment;
 

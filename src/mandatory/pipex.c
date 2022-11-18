@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/16 22:14:05 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:49:18 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,35 +74,54 @@ static	void	try_to_execute(void)
 		ft_throw_error("Couldn't execute binary");
 }
 
+char	*execute_commands(char **commands, char *path)
+{
+	int		i;
+	int		stdin_fd;
+	int		stdout_fd;
+	char	*output;
+
+	i = 0;
+	output = NULL;
+	while (commands[i])
+	{
+		free(output);
+		g__enviroment()->command = parse_command_string(commands[i], path);
+
+		stdout_fd = switch_stdout_write(1);
+		ft_throw_to_child(&try_to_execute);
+		free(g__enviroment()->command.name);
+		ft_free_matrix(g__enviroment()->command.argv);
+		output = ft_read_file_fd(stdout_fd);
+		switch_stdout_write(0);
+
+		stdin_fd = switch_stdin_write(1);
+		ft_fprintf(stdin_fd, output);
+		stdin_fd = switch_stdin_write(0);
+		i++;
+	}
+	return (output);
+}
+
 void	pipex(char *infile_name, char **commands, char *outfile_name, char *path)
 {
 	char	*infile;
-	int		i;
-	int		STDIN;
-	int		STDOUT;
-	int		p[2];
+	int		outfile_fd;
+	int		stdin_fd;
+	char	*output;
 
-	i = 0;
 	infile = ft_read_file(infile_name);
-	STDIN = switch_stdin_write(1);
-	ft_fprintf(STDIN, infile);
-	STDIN = switch_stdin_write(0);
-
-	while (commands[i])
-	{
-		g__enviroment()->command = parse_command_string(commands[i], path);
-		g__enviroment()->current = i;
-		ft_printf("Command[%i]: %s\n", i, g__enviroment()->command.name);
-
-		STDOUT = switch_stdout_write(1);
-
-		ft_throw_to_child(&try_to_execute);
-		char buf[101];
-		ft_bzero(buf, 101);
-		read(STDOUT, buf, 100);
-
-		switch_stdout_write(0);
-		ft_printf("\n'%s'\n", buf);
-		i++;
-	}
+	if (!infile)
+		ft_throw_error("Could not read file");
+	stdin_fd = switch_stdin_write(1);
+	ft_fprintf(stdin_fd, infile);
+	switch_stdin_write(0);
+	output = execute_commands(commands, path);
+	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY, 0664);
+	if (!outfile_fd)
+		ft_throw_error("File could not be created or open");
+	ft_fprintf(outfile_fd, output);
+	close(outfile_fd);
+	free(infile);
+	free(output);
 }

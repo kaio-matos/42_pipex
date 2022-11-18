@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:03:01 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/16 19:56:59 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:38:02 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 
 void	validate_input(int argc, char **argv)
 {
-	if (argc != 5)
+	if (argc < 5)
 		ft_throw_error("Please insert at least four arguments.");
 	if (!argv)
 		ft_throw_error("Bad argument.");
