@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/18 21:52:32 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:42:33 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,10 @@ void	pipex(char *infile_name, char **commands, char *outfile_name, char *path)
 	int		outfile_fd;
 	char	*output;
 
+	if (access(infile_name, R_OK))
+		ft_exit_error(infile_name, 127);
 	infile = ft_read_file(infile_name);
-	if (!infile)
-		ft_error(infile_name);
-	else
-		std__write_in(infile);
+	std__write_in(infile);
 	output = execute_commands(commands, path);
 	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (!outfile_fd)
