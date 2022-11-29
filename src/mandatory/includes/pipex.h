@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/18 21:52:33 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:40:39 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ void	ft_throw_to_child(void (*f) (void));
 void	ft_error(char *message);
 void	ft_exit_error(char *message, int number);
 void	ft_error_message(char *message, char *argument);
+char	**ft_spliti(char *s, char c);
 
 #endif
