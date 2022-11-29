@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:11:40 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/18 21:35:03 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:55:46 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_command	parse_command_string(char *command, char *path)
 	int			i;
 
 	i = 1;
-	divided = ft_split(command, ' ');
+	divided = ft_spliti(command, ' ');
 	parsed_command.name = divided[0];
 	parsed_command.argv = NULL;
 	parsed_command.argv = ft_mtxpush(parsed_command.argv, get_binary_path(path, parsed_command.name));
