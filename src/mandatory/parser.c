@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:35:39 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/09 19:28:36 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/29 21:42:58 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_binary_path(char *path, char *bin_name)
 		if (access(binary, X_OK) == 0)
 			break ;
 		free(binary);
-		binary = NULL;
+		binary = "\0";
 		i++;
 	}
 	ft_free_matrix(bin_folder_paths);

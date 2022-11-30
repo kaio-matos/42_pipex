@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/28 21:42:33 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/29 22:06:31 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static	void	try_to_execute(void)
 
 	result = execve(g__enviroment()->command.argv[0], g__enviroment()->command.argv, g__enviroment()->envp);
 	if (result < 0)
+	{
 		ft_error_message("command not found", g__enviroment()->command.name);
+		exit(127);
+	}
 }
 
 
@@ -30,6 +33,11 @@ char	*execute_command(char *command, char *path)
 	output = NULL;
 	free(output);
 	g__enviroment()->command = parse_command_string(command, path);
+	if (!g__enviroment()->command.argv[0][0])
+	{
+		ft_error_message("command not found", g__enviroment()->command.name);
+		exit(127);
+	}
 	stdout_fd = std__switch_out_scope(1);
 	ft_throw_to_child(&try_to_execute);
 	if (g__enviroment()->command.argv[0])
@@ -51,7 +59,8 @@ char	*execute_commands(char **commands, char *path)
 	{
 		free(output);
 		output = execute_command(commands[i], path);
-		std__write_in(output);
+		if (commands[i + 1])
+			std__write_in(output);
 		i++;
 	}
 	return (output);
