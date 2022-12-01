@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:30:47 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/18 21:47:40 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/30 21:58:58 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	ft_chrcnt(char *string, char c)
 void	ft_throw_to_child(void (*f) (void))
 {
 	pid_t	pid;
-	pid_t	wait;
 	int		status;
 
 	pid = fork();
@@ -56,16 +55,6 @@ void	ft_throw_to_child(void (*f) (void))
 		f();
 		exit(0);
 	}
-	else
-	{
-		wait = waitpid(pid, &status, WUNTRACED);
-		if (wait == -1)
-			ft_throw_error("PID doesn't match any process");
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-		{
-			wait = waitpid(pid, &status, WUNTRACED);
-			if (wait == -1)
-				ft_throw_error("PID doesn't match any process");
-		}
-	}
+	else if (wait(&status) == -1)
+		ft_throw_error("PID doesn't match any process");
 }

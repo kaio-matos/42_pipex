@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:03:01 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/17 21:38:02 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/11/30 21:00:37 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ int	main(int argc, char **argv, char **envp)
 	commands[argc - (offset + 1)] = NULL;
 	path = get_var_from_env("PATH", envp);
 	if (!path)
-		ft_throw_error("Enviroment variable 'PATH' not found");
+		ft_exit_error("Enviroment variable 'PATH' not found", 1);
 	pipex(infile, commands, outfile, path);
 	return (0);
 }
 
 void	validate_input(int argc, char **argv)
 {
-	if (argc < 5)
-		ft_throw_error("Please insert at least four arguments.");
+	if (argc != 5)
+		ft_exit_error("Please insert four arguments.", 1);
 	if (!argv)
-		ft_throw_error("Bad argument.");
+		ft_exit_error("Bad argument.", 1);
 }
