@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:11:40 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/28 21:55:46 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/01 21:34:32 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ t_command	parse_command_string(char *command, char *path)
 		parsed_command.argv = ft_mtxpush(parsed_command.argv, divided[i]);
 		i++;
 	}
+	free(divided);
 	return (parsed_command);
 }
