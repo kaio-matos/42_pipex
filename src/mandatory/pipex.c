@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/01 21:58:34 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/02 22:10:29 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,25 @@ static	void	try_to_execute(void)
 	}
 }
 
-
 char	*execute_command(char *command, char *path)
 {
 	char	*output;
 	int		stdout_fd;
 
+	output = NULL;
 	g__enviroment()->command = parse_command_string(command, path);
 	if (!g__enviroment()->command.argv[0][0])
-	{
 		ft_error_message("command not found", g__enviroment()->command.name);
-		free(g__enviroment()->command.name);
-		ft_free_matrix(g__enviroment()->command.argv);
-		exit(127);
+	else
+	{
+		stdout_fd = std__switch_out_scope(1);
+		ft_throw_to_child(&try_to_execute);
+		if (g__enviroment()->command.argv[0])
+			output = ft_read_file_fd(stdout_fd);
+		std__switch_out_scope(0);
 	}
-	stdout_fd = std__switch_out_scope(1);
-	ft_throw_to_child(&try_to_execute);
-	if (g__enviroment()->command.argv[0])
-		output = ft_read_file_fd(stdout_fd);
 	free(g__enviroment()->command.name);
 	ft_free_matrix(g__enviroment()->command.argv);
-	std__switch_out_scope(0);
 	return (output);
 }
 
@@ -81,14 +79,12 @@ void	pipex(char *infile_name, char **commands, char *outfile_name, char *path)
 		std__write_in(infile);
 	free(infile);
 	output = execute_commands(commands, path);
-	if (access(outfile_name, W_OK) == -1)
+	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (outfile_fd == -1)
 	{
 		free(output);
 		ft_exit_error(outfile_name, 1);
 	}
-	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (!outfile_fd)
-		ft_error(outfile_name);
 	ft_fprintf(outfile_fd, output);
 	close(outfile_fd);
 	free(output);
