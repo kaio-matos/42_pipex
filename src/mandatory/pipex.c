@@ -6,47 +6,48 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/02 22:10:29 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:38:23 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static	void	try_to_execute(void)
+static	void	try_to_execute(t_command command)
 {
 	int	result;
 
-	result = execve(g__enviroment()->command.argv[0], g__enviroment()->command.argv, g__enviroment()->envp);
+	result = execve(command.argv[0], command.argv, command.envp);
 	if (result < 0)
 	{
-		ft_error_message("command not found", g__enviroment()->command.name);
+		ft_error_message("command not found", command.name);
 		exit(127);
 	}
 }
 
-char	*execute_command(char *command, char *path)
+static char	*execute_command(char *command_str, t_enviroment program_env)
 {
-	char	*output;
-	int		stdout_fd;
+	char		*output;
+	int			stdout_fd;
+	t_command	command;
 
 	output = NULL;
-	g__enviroment()->command = parse_command_string(command, path);
-	if (!g__enviroment()->command.argv[0][0])
-		ft_error_message("command not found", g__enviroment()->command.name);
+	command = parse_command_string(command_str, program_env);
+	if (!command.argv[0][0])
+		ft_error_message("command not found", command.name);
 	else
 	{
 		stdout_fd = std__switch_out_scope(1);
-		ft_throw_to_child(&try_to_execute);
-		if (g__enviroment()->command.argv[0])
+		ft_throw_to_child(&try_to_execute, command);
+		if (command.argv[0])
 			output = ft_read_file_fd(stdout_fd);
 		std__switch_out_scope(0);
 	}
-	free(g__enviroment()->command.name);
-	ft_free_matrix(g__enviroment()->command.argv);
+	free(command.name);
+	ft_free_matrix(command.argv);
 	return (output);
 }
 
-char	*execute_commands(char **commands, char *path)
+static char	*execute_commands(char **commands, t_enviroment program_env)
 {
 	int		i;
 	char	*output;
@@ -56,7 +57,7 @@ char	*execute_commands(char **commands, char *path)
 	while (commands[i])
 	{
 		free(output);
-		output = execute_command(commands[i], path);
+		output = execute_command(commands[i], program_env);
 		if (commands[i + 1])
 			std__write_in(output);
 		i++;
@@ -64,7 +65,7 @@ char	*execute_commands(char **commands, char *path)
 	return (output);
 }
 
-void	pipex(char *infile_name, char **commands, char *outfile_name, char *path)
+void	pipex(char *infile_name, char **commands, char *outfile_name, t_enviroment program_env)
 {
 	char	*infile;
 	int		outfile_fd;
@@ -78,7 +79,7 @@ void	pipex(char *infile_name, char **commands, char *outfile_name, char *path)
 	infile = ft_read_file(infile_name);
 		std__write_in(infile);
 	free(infile);
-	output = execute_commands(commands, path);
+	output = execute_commands(commands, program_env);
 	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (outfile_fd == -1)
 	{

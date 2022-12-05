@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:30:47 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/30 21:58:58 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:22:55 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_chrcnt(char *string, char c)
 	return (counter);
 }
 
-void	ft_throw_to_child(void (*f) (void))
+void	ft_throw_to_child(void (*f) (t_command command), t_command command)
 {
 	pid_t	pid;
 	int		status;
@@ -52,7 +52,7 @@ void	ft_throw_to_child(void (*f) (void))
 		ft_throw_error("Error during the creation of a new process");
 	if (pid == 0)
 	{
-		f();
+		f(command);
 		exit(0);
 	}
 	else if (wait(&status) == -1)
