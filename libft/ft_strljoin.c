@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   ft_strljoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/27 23:56:46 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/05 21:12:35 by kmatos-s         ###   ########.fr       */
+/*   Created: 2022/12/05 21:07:22 by kmatos-s          #+#    #+#             */
+/*   Updated: 2022/12/05 21:08:25 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-char	*gnl_strljoin(char *s1, char const *s2, int bytes)
+char	*ft_strljoin(char *s1, char const *s2, int bytes)
 {
 	char	*new_str;
 	int		i;
@@ -21,14 +21,13 @@ char	*gnl_strljoin(char *s1, char const *s2, int bytes)
 	if (!new_str)
 		return (NULL);
 	i = 0;
-	while (s1 != NULL && *s1 && (bytes - i))
+	while (s1 != NULL && *s1 && i < bytes)
 	{
 		new_str[i] = *s1;
 		i++;
 		s1++;
 	}
-	free(s1 - i);
-	while (s2 != NULL && *s2 && (bytes - i))
+	while (s2 != NULL && *s2 && i < bytes)
 	{
 		new_str[i] = *s2;
 		i++;

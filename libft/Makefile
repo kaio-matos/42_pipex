@@ -14,7 +14,7 @@ ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c\
 ft_strmapi.c ft_striteri.c
 #ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
 
-OTHERS_SRCS = ft_mtxiteri.c ft_mtxdup.c ft_mtxpush.c ft_mtxlen.c
+OTHERS_SRCS = ft_mtxiteri.c ft_mtxdup.c ft_mtxpush.c ft_mtxlen.c ft_strljoin.c
 
 WRITE_SRCS = write/ft_putchar.c write/ft_putchar_fd.c write/ft_putendl_fd.c write/ft_putnbase_fd.c write/ft_putnbase.c write/ft_putnbr_fd.c write/ft_putstr.c write/ft_putstr_fd.c write/ft_putstrn_fd.c write/ft_putstrn.c
 

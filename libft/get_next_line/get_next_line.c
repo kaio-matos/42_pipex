@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 23:56:44 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/17 20:39:36 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/05 21:08:55 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	concatenate(char **s, const char *rest)
 	if (!(*rest))
 		return (-1);
 	rest_until_nl = countnl(rest, ft_strlen(rest));
-	*s = ft_strljoin(*s, rest, ft_strlen(*s) + rest_until_nl);
+	*s = gnl_strljoin(*s, rest, ft_strlen(*s) + rest_until_nl);
 	if (!(*s))
 		return (-1);
 	return (rest_until_nl);
@@ -77,7 +77,7 @@ char	*get_next_line(int fd, int BUFFER_SIZE)
 	while (bytes > 0 || ft_strlen(rest[fd]))
 	{
 		buffer[bytes] = '\0';
-		rest[fd] = ft_strljoin(rest[fd], buffer, ft_strlen(rest[fd]) + bytes);
+		rest[fd] = gnl_strljoin(rest[fd], buffer, ft_strlen(rest[fd]) + bytes);
 		if (deal_with_rest(&rest[fd], concatenate(&str, rest[fd])) == -1)
 			return (NULL);
 		if (ft_strchr(str, '\n'))
