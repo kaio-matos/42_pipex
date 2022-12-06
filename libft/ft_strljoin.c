@@ -6,13 +6,13 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 21:07:22 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/05 21:08:25 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:24:31 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-char	*ft_strljoin(char *s1, char const *s2, int bytes)
+char	*ft_strljoin(char const *s1, char const *s2, int bytes)
 {
 	char	*new_str;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 15:44:33 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/05 21:09:40 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:25:22 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -445,7 +445,7 @@ void	ft_mtxiteri(char **mtx, void (*f) (unsigned int, unsigned int, char *));
 char	**ft_mtxdup(char **mtx, size_t rows);
 char	**ft_mtxpush(char **mtx, char *string);
 int		ft_mtxlen(char **mtx);
-char	*ft_strljoin(char *s1, char const *s2, int bytes);
+char	*ft_strljoin(char const *s1, char const *s2, int bytes);
 
 /******************************************************************************\
 * GET_NEXT_LINE																   *
