@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 21:05:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/28 21:48:11 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/09 21:51:09 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ static int	word_counter(char const *string, char c)
 	{
 		while (string[i] == c)
 			i++;
-		if (string[i++] == '\'')
+		if (string[i + 1] == '\'')
 		{
+			i += 1;
 			while (string[i] != '\'')
 				i++;
 		}
@@ -73,6 +74,8 @@ char	**ft_spliti(char *s, char c)
 	char	**mtx;
 	int		words;
 
+	if (!s || !*s)
+		return (NULL);
 	mtx = NULL;
 	words = word_counter(s, c) + 1;
 	mtx = malloc(sizeof(char *) * words);

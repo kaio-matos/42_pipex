@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 20:54:23 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/11/18 21:52:32 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:17:34 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	std__switch_in_scope(int active)
 	return (-1);
 }
 
-int	std__switch_out_scope(int active)
+int	*std__switch_out_scope(int active)
 {
 	static int	p[2];
 	static int	stdout_backup;
@@ -54,13 +54,13 @@ int	std__switch_out_scope(int active)
 			ft_error("");
 		stdout_backup = dup(STDOUT_FILENO);
 		dup2(p[WRITE], STDOUT_FILENO);
-		close(p[WRITE]);
-		return (p[READ]);
+		// close(p[WRITE]);
+		return (p);
 	}
 	dup2(stdout_backup, STDOUT_FILENO);
 	close(p[READ]);
 	close(stdout_backup);
 	p[READ] = -1;
 	p[WRITE] = -1;
-	return (-1);
+	return (p);
 }

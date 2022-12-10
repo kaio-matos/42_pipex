@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/05 20:38:23 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/09 22:08:07 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,69 +24,69 @@ static	void	try_to_execute(t_command command)
 	}
 }
 
-static char	*execute_command(char *command_str, t_enviroment program_env)
+static char	*execute_commands(char **commands_str, t_enviroment program_env, t_program_descriptors *descriptors)
 {
+	int			i;
+	int			n_commands;
+	t_command	*commands;
+	int			status;
 	char		*output;
-	int			stdout_fd;
-	t_command	command;
-
-	output = NULL;
-	command = parse_command_string(command_str, program_env);
-	if (!command.argv[0][0])
-		ft_error_message("command not found", command.name);
-	else
-	{
-		stdout_fd = std__switch_out_scope(1);
-		ft_throw_to_child(&try_to_execute, command);
-		if (command.argv[0])
-			output = ft_read_file_fd(stdout_fd);
-		std__switch_out_scope(0);
-	}
-	free(command.name);
-	ft_free_matrix(command.argv);
-	return (output);
-}
-
-static char	*execute_commands(char **commands, t_enviroment program_env)
-{
-	int		i;
-	char	*output;
 
 	i = 0;
 	output = NULL;
-	while (commands[i])
+	n_commands = ft_mtxlen(commands_str);
+	commands = get_commands_from(commands_str, program_env);
+	if (pipe(descriptors->pip) == -1)
+		ft_exit_error("Could not create pipe", 1);
+	while (i < n_commands)
 	{
-		free(output);
-		output = execute_command(commands[i], program_env);
-		if (commands[i + 1])
-			std__write_in(output);
+		commands[i].process = ft_throw_to_child(&try_to_execute, commands[i], descriptors, i == n_commands - 1);
+		close(descriptors->pip[WRITE]);
+		free(commands[i].name);
+		ft_free_matrix(commands[i].argv);
 		i++;
 	}
+	close(descriptors->pip[READ]);
+	close(descriptors->pip[WRITE]);
+	i = 0;
+	while (i < n_commands)
+	{
+		if (waitpid(commands[i].process, &status, 0) == -1)
+			ft_exit_error("waitpid", 1);
+		while (!WIFEXITED(status) && !WIFSIGNALED(status))
+		{
+			if (waitpid(commands[i].process, &status, 0) == -1)
+				ft_exit_error("waitpid", 1);
+			if (WIFEXITED(status) && i == n_commands - 1)
+				exit(WIFEXITED(status));
+		}
+		i++;
+	}
+	free(commands);
 	return (output);
 }
 
 void	pipex(char *infile_name, char **commands, char *outfile_name, t_enviroment program_env)
 {
-	char	*infile;
-	int		outfile_fd;
-	char	*output;
+	t_program_descriptors	descriptors;
 
 	if (access(infile_name, R_OK) == -1)
 	{
 		ft_error(infile_name);
 		commands++;
+		descriptors.infile_fd = -1;
 	}
-	infile = ft_read_file(infile_name);
-		std__write_in(infile);
-	free(infile);
-	output = execute_commands(commands, program_env);
-	outfile_fd = open(outfile_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (outfile_fd == -1)
+	else
 	{
-		free(output);
-		ft_exit_error(outfile_name, 1);
+		descriptors.infile_fd = open(infile_name, O_RDONLY);
+		if (descriptors.infile_fd == -1)
+			ft_exit_error(infile_name, 1);
 	}
-	ft_fprintf(outfile_fd, output);
-	close(outfile_fd);
-	free(output);
+	descriptors.outfile_fd = open(outfile_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (descriptors.outfile_fd == -1)
+		ft_exit_error(outfile_name, 1);
+	execute_commands(commands, program_env, &descriptors);
+	if (descriptors.infile_fd != -1)
+		close(descriptors.infile_fd);
+	close(descriptors.outfile_fd);
 }

@@ -6,11 +6,22 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:11:40 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/05 20:33:12 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/09 21:02:04 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+t_command	*reset_command(t_command *command)
+{
+	command->argv = NULL;
+	command->envp = NULL;
+	command->index = -1;
+	command->name = NULL;
+	command->process = -1;
+
+	return (command);
+}
 
 t_command	parse_command_string(char *command, t_enviroment program_env)
 {
@@ -20,9 +31,11 @@ t_command	parse_command_string(char *command, t_enviroment program_env)
 	int			i;
 
 	i = 1;
+	reset_command(&parsed_command);
 	divided = ft_spliti(command, ' ');
+	if (!divided)
+		return (parsed_command);
 	parsed_command.name = divided[0];
-	parsed_command.argv = NULL;
 	parsed_command.envp = program_env.envp;
 	path = get_var_from_env("PATH", program_env.envp);
 	if (!path)
@@ -38,4 +51,25 @@ t_command	parse_command_string(char *command, t_enviroment program_env)
 	}
 	free(divided);
 	return (parsed_command);
+}
+
+t_command	*get_commands_from(char **commands_str, t_enviroment program_env)
+{
+	int			i;
+	t_command	command;
+	t_command	*commands;
+	int			n_commands;
+
+	i = 0; 
+	n_commands = ft_mtxlen(commands_str);
+	commands = malloc(sizeof(t_command) * n_commands);
+	while (i < n_commands && commands_str[i])
+	{
+		command = parse_command_string(commands_str[i], program_env);
+		if (command.argv[0])
+			commands[i] = command;
+		commands[i].index = i;
+		i++;
+	}
+	return (commands);
 }
