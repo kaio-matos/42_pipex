@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:11:40 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/09 21:02:04 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/12 21:34:40 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,38 +19,43 @@ t_command	*reset_command(t_command *command)
 	command->index = -1;
 	command->name = NULL;
 	command->process = -1;
-
 	return (command);
+}
+
+void	fill_mtx(char ***mtx1, char **mtx2, int start)
+{
+	int	i;
+
+	i = start;
+	while (mtx2[i])
+	{
+		*mtx1 = ft_mtxpush(*mtx1, mtx2[i]);
+		i++;
+	}
 }
 
 t_command	parse_command_string(char *command, t_enviroment program_env)
 {
-	t_command	parsed_command;
+	t_command	cmd;
 	char		**divided;
 	char		*path;
-	int			i;
 
-	i = 1;
-	reset_command(&parsed_command);
+	reset_command(&cmd);
 	divided = ft_spliti(command, ' ');
 	if (!divided)
-		return (parsed_command);
-	parsed_command.name = divided[0];
-	parsed_command.envp = program_env.envp;
+		return (cmd);
+	cmd.name = divided[0];
+	cmd.envp = program_env.envp;
 	path = get_var_from_env("PATH", program_env.envp);
 	if (!path)
 		ft_exit_error("Enviroment variable 'PATH' not found", 1);
-	if (access(parsed_command.name, X_OK) == -1)
-		parsed_command.argv = ft_mtxpush(parsed_command.argv, get_binary_path(path, parsed_command.name));
+	if (access(cmd.name, X_OK) == -1)
+		cmd.argv = ft_mtxpush(cmd.argv, get_binary_path(path, cmd.name));
 	else
-		parsed_command.argv = ft_mtxpush(parsed_command.argv, ft_strdup(parsed_command.name));
-	while (divided[i])
-	{
-		parsed_command.argv = ft_mtxpush(parsed_command.argv, divided[i]);
-		i++;
-	}
+		cmd.argv = ft_mtxpush(cmd.argv, ft_strdup(cmd.name));
+	fill_mtx(&cmd.argv, divided, 1);
 	free(divided);
-	return (parsed_command);
+	return (cmd);
 }
 
 t_command	*get_commands_from(char **commands_str, t_enviroment program_env)
@@ -60,7 +65,7 @@ t_command	*get_commands_from(char **commands_str, t_enviroment program_env)
 	t_command	*commands;
 	int			n_commands;
 
-	i = 0; 
+	i = 0;
 	n_commands = ft_mtxlen(commands_str);
 	commands = malloc(sizeof(t_command) * n_commands);
 	while (i < n_commands && commands_str[i])

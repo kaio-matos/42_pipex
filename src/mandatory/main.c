@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:03:01 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/09 21:56:28 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/12 21:07:02 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	validate_input(int argc, char **argv)
 	{
 		if (!argv[i][0])
 		{
-			ft_error_message("Please insert a valid argument", "An empty string as argument is invalid");
+			ft_error_message(
+				"Please insert a valid argument",
+				"An empty string as argument is invalid"
+				);
 			exit(1);
 		}
 		i++;

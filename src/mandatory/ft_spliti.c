@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 21:05:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/09 21:51:09 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/12 21:44:36 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ static int	word_counter(char const *string, char c)
 	return (counter);
 }
 
+static void	handle_quote(char const *string, unsigned int *i, unsigned int *j)
+{
+	(*i)++;
+	while (string[*i + *j] != '\'')
+		(*j)++;
+}
+
 static char	**fill_rows(char **rows, unsigned int length, char const *s, char c)
 {
 	unsigned int	i;
@@ -51,11 +58,7 @@ static char	**fill_rows(char **rows, unsigned int length, char const *s, char c)
 		while (s[i] == c)
 			i++;
 		if (s[i] == '\'')
-		{
-			i++;
-			while (s[i + j] != '\'')
-				j++;
-		}
+			handle_quote(s, &i, &j);
 		else
 			while (s[i + j] && s[i + j] != c)
 				j++;
