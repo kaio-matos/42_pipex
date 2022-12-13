@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/12 21:27:21 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/12 22:18:11 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,20 @@ static pid_t	execute_command(
 	return (process);
 }
 
-static void	wait_commands(t_command *commands, int n_commands)
+static void	wait_commands(t_commands commands)
 {
-	int	i;
-	int	status;
+	unsigned int	i;
+	int				status;
 
-	while (i < n_commands)
+	while (i < commands.length)
 	{
-		if (waitpid(commands[i].process, &status, 0) == -1)
+		if (waitpid(commands.self[i].process, &status, 0) == -1)
 			ft_exit_error("waitpid", 1);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
 		{
-			if (waitpid(commands[i].process, &status, 0) == -1)
+			if (waitpid(commands.self[i].process, &status, 0) == -1)
 				ft_exit_error("waitpid", 1);
-			if (WIFEXITED(status) && i == n_commands - 1)
+			if (WIFEXITED(status) && i == commands.length - 1)
 				exit(WIFEXITED(status));
 		}
 		i++;
@@ -62,51 +62,47 @@ static void	wait_commands(t_command *commands, int n_commands)
 }
 
 static char	*execute_commands(
-	char **commands_str,
-	t_enviroment program_env,
+	t_commands commands,
 	t_program_descriptors *descriptors
 )
 {
-	int			i;
-	int			n_commands;
-	t_command	*commands;
-	char		*output;
+	unsigned int	i;
+	char			*output;
 
 	i = 0;
 	output = NULL;
-	n_commands = ft_mtxlen(commands_str);
-	commands = get_commands_from(commands_str, program_env);
 	if (pipe(descriptors->pip) == -1)
 		ft_exit_error("Could not create pipe", 1);
-	while (i < n_commands)
+	while (i < commands.length)
 	{
-		commands[i].process = execute_command(commands[i],
-				descriptors, i == n_commands - 1);
+		commands.self[i].process = execute_command(commands.self[i],
+				descriptors, i == commands.length - 1);
 		close(descriptors->pip[WRITE]);
-		free(commands[i].name);
-		ft_free_matrix(commands[i].argv);
+		free(commands.self[i].name);
+		ft_free_matrix(commands.self[i].argv);
 		i++;
 	}
 	close(descriptors->pip[READ]);
 	close(descriptors->pip[WRITE]);
-	wait_commands(commands, n_commands);
-	free(commands);
+	wait_commands(commands);
+	free(commands.self);
 	return (output);
 }
 
 void	pipex(
 	char *infile_name,
-	char **commands,
+	char **commands_strs,
 	char *outfile_name,
 	t_enviroment program_env
 )
 {
 	t_program_descriptors	descriptors;
+	t_commands				commands;
 
 	if (access(infile_name, R_OK) == -1)
 	{
 		ft_error(infile_name);
-		commands++;
+		commands_strs++;
 		descriptors.infile_fd = -1;
 	}
 	else
@@ -122,7 +118,8 @@ void	pipex(
 			);
 	if (descriptors.outfile_fd == -1)
 		ft_exit_error(outfile_name, 1);
-	execute_commands(commands, program_env, &descriptors);
+	commands = get_commands_from(commands_strs, program_env);
+	execute_commands(commands, &descriptors);
 	if (descriptors.infile_fd != -1)
 		close(descriptors.infile_fd);
 	close(descriptors.outfile_fd);

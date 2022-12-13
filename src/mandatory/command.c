@@ -6,23 +6,37 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:11:40 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/12 21:34:40 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/12 22:15:36 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-t_command	*reset_command(t_command *command)
+static void			fill_mtx(char ***mtx1, char **mtx2, int start);
+static t_command	*reset_command(t_command *command);
+static t_command	parse_command_string(char *command, t_enviroment program_env);
+
+t_commands	get_commands_from(char **commands_str, t_enviroment program_env)
 {
-	command->argv = NULL;
-	command->envp = NULL;
-	command->index = -1;
-	command->name = NULL;
-	command->process = -1;
-	return (command);
+	unsigned int	i;
+	t_command		command;
+	t_commands		commands;
+
+	i = 0;
+	commands.length = ft_mtxlen(commands_str);
+	commands.self = malloc(sizeof(t_command) * commands.length);
+	while (i < commands.length && commands_str[i])
+	{
+		command = parse_command_string(commands_str[i], program_env);
+		if (command.argv[0])
+			commands.self[i] = command;
+		commands.self[i].index = i;
+		i++;
+	}
+	return (commands);
 }
 
-void	fill_mtx(char ***mtx1, char **mtx2, int start)
+static void	fill_mtx(char ***mtx1, char **mtx2, int start)
 {
 	int	i;
 
@@ -34,7 +48,17 @@ void	fill_mtx(char ***mtx1, char **mtx2, int start)
 	}
 }
 
-t_command	parse_command_string(char *command, t_enviroment program_env)
+static t_command	*reset_command(t_command *command)
+{
+	command->argv = NULL;
+	command->envp = NULL;
+	command->index = -1;
+	command->name = NULL;
+	command->process = -1;
+	return (command);
+}
+
+static t_command	parse_command_string(char *command, t_enviroment program_env)
 {
 	t_command	cmd;
 	char		**divided;
@@ -56,25 +80,4 @@ t_command	parse_command_string(char *command, t_enviroment program_env)
 	fill_mtx(&cmd.argv, divided, 1);
 	free(divided);
 	return (cmd);
-}
-
-t_command	*get_commands_from(char **commands_str, t_enviroment program_env)
-{
-	int			i;
-	t_command	command;
-	t_command	*commands;
-	int			n_commands;
-
-	i = 0;
-	n_commands = ft_mtxlen(commands_str);
-	commands = malloc(sizeof(t_command) * n_commands);
-	while (i < n_commands && commands_str[i])
-	{
-		command = parse_command_string(commands_str[i], program_env);
-		if (command.argv[0])
-			commands[i] = command;
-		commands[i].index = i;
-		i++;
-	}
-	return (commands);
 }

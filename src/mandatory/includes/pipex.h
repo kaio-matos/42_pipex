@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/12 21:41:01 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/12 22:13:56 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 # include <sys/wait.h>
 # define READ 0
 # define WRITE 1
-
-typedef struct s_command
-{
-	char	**envp;
-	char	**argv;
-	char	*name;
-	pid_t	process;
-	int		index;
-}	t_command;
 
 typedef struct s_enviroment
 {
@@ -40,8 +31,26 @@ typedef struct s_program_descriptors
 	int			pip[2];
 }	t_program_descriptors;
 
-t_command	parse_command_string(char *command, t_enviroment program_env);
-t_command	*get_commands_from(char **commands_str, t_enviroment program_env);
+/******************************************************************************\
+* COMMANDS 																	   *
+\******************************************************************************/
+
+typedef struct s_command
+{
+	char	**envp;
+	char	**argv;
+	char	*name;
+	pid_t	process;
+	int		index;
+}	t_command;
+
+typedef struct s_commands
+{
+	t_command		*self;
+	unsigned int	length;
+}	t_commands;
+
+t_commands	get_commands_from(char **commands_str, t_enviroment program_env);
 
 /******************************************************************************\
 * PIPEX 																	   *
