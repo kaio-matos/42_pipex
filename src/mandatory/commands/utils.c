@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:16:04 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:31:17 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/14 20:09:31 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void	try_to_execute(t_command command, t_commands commands)
 	if (result < 0)
 	{
 		ft_error_message("command not found", command.name);
-		free(command.name);
-		ft_free_matrix(command.argv);
-		free(commands.self);
+		free_commands(&commands);
 		exit(127);
 	}
 }

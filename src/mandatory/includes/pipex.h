@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 22:11:56 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/14 20:07:30 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,6 @@ void		pipex(
 				);
 
 /******************************************************************************\
-* STD																		   *
-\******************************************************************************/
-
-void		std__write_in(char *string);
-int			std__switch_in_scope(int active);
-int			*std__switch_out_scope(int active);
-
-/******************************************************************************\
 * PARSER 																	   *
 \******************************************************************************/
 
@@ -79,6 +71,8 @@ typedef struct s_commands
 
 t_commands	parse_commands(char **commands_str, t_enviroment program_env);
 t_command	*reset_command(t_command *command);
+t_command	*free_command(t_command *command);
+t_commands	*free_commands(t_commands *commands);
 void		execute_commands(
 				t_commands commands,
 				t_program_descriptors *descriptors

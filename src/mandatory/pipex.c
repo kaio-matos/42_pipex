@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 22:10:18 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/14 20:15:17 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	pipex(
 		commands_strs++;
 	commands = parse_commands(commands_strs, program_env);
 	execute_commands(commands, &descriptors);
+	free_commands(&commands);
 	if (descriptors.infile_fd != -1)
 		close(descriptors.infile_fd);
 	close(descriptors.outfile_fd);
