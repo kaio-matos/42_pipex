@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:16:04 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/14 20:09:31 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/14 20:53:19 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ pid_t	ft_throw_to_child(
 
 	pid = fork();
 	if (pid == -1)
-		ft_throw_error("Error during the creation of a new process");
+		ft_exit_perror("fork", EXIT_FAILURE);
 	if (pid == 0)
 	{
 		if (command.index == 0 && descriptors->infile_fd != -1)
