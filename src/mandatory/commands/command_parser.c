@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 21:11:40 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:18:22 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:30:02 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static t_command	parse_command(char *command, t_enviroment program_env)
 	cmd.envp = program_env.envp;
 	path = get_var_from_env("PATH", program_env.envp);
 	if (!path)
-		ft_exit_error("Enviroment variable 'PATH' not found", 1);
+		ft_exit_error("Enviroment variable 'PATH' not found", EXIT_FAILURE);
 	if (access(cmd.name, X_OK) == -1)
 		cmd.argv = ft_mtxpush(cmd.argv, get_binary_path(path, cmd.name));
 	else

@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:24:05 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:29:48 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_program_descriptors	handle_files_creation(
 	{
 		descriptors.infile_fd = open(infile_name, O_RDONLY);
 		if (descriptors.infile_fd == -1)
-			ft_exit_error(infile_name, 1);
+			ft_exit_error(infile_name, EXIT_FAILURE);
 	}
 	descriptors.outfile_fd = open(
 			outfile_name,
@@ -61,6 +61,6 @@ static t_program_descriptors	handle_files_creation(
 			0664
 			);
 	if (descriptors.outfile_fd == -1)
-		ft_exit_error(outfile_name, 1);
+		ft_exit_error(outfile_name, EXIT_FAILURE);
 	return (descriptors);
 }

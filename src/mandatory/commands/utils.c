@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:16:04 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:19:59 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:31:17 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ pid_t	ft_throw_to_child(
 		if (descriptors->infile_fd != -1)
 			close(descriptors->infile_fd);
 		f(command, commands);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	return (pid);
 }

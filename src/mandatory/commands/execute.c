@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:13:13 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:23:37 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:30:15 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_commands(
 
 	i = 0;
 	if (pipe(descriptors->pip) == -1)
-		ft_exit_error("Could not create pipe", 1);
+		ft_exit_error("Could not create pipe", EXIT_FAILURE);
 	while (i < commands.length)
 	{
 		commands.self[i].process = execute_command(
