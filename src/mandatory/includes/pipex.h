@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 01:06:58 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:00:14 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:21:26 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,6 @@ typedef struct s_program_descriptors
 	int			outfile_fd;
 	int			pip[2];
 }	t_program_descriptors;
-
-/******************************************************************************\
-* COMMANDS 																	   *
-\******************************************************************************/
-
-typedef struct s_command
-{
-	char	**envp;
-	char	**argv;
-	char	*name;
-	pid_t	process;
-	int		index;
-}	t_command;
-
-typedef struct s_commands
-{
-	t_command		*self;
-	unsigned int	length;
-}	t_commands;
-
-t_commands	get_commands_from(char **commands_str, t_enviroment program_env);
 
 /******************************************************************************\
 * PIPEX 																	   *
@@ -78,6 +57,33 @@ int			*std__switch_out_scope(int active);
 char		*get_var_from_env(char *name, char **envp);
 char		*join_paths(char *path1, char *path2);
 char		*get_binary_path(char *path, char *bin_name);
+
+/******************************************************************************\
+* COMMANDS 																	   *
+\******************************************************************************/
+
+typedef struct s_command
+{
+	char	**envp;
+	char	**argv;
+	char	*name;
+	pid_t	process;
+	int		index;
+}	t_command;
+
+typedef struct s_commands
+{
+	t_command		*self;
+	unsigned int	length;
+}	t_commands;
+
+t_commands	parse_commands(char **commands_str, t_enviroment program_env);
+t_command	*reset_command(t_command *command);
+void		execute_commands(
+				t_commands commands,
+				t_program_descriptors *descriptors
+				);
+void		try_to_execute(t_command command, t_commands commands);
 
 /******************************************************************************\
 * UTILS 																	   *
