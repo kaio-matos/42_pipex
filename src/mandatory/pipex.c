@@ -6,13 +6,13 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/12 22:18:11 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 21:00:49 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static	void	try_to_execute(t_command command)
+static	void	try_to_execute(t_command command, t_commands commands)
 {
 	int	result;
 
@@ -20,12 +20,16 @@ static	void	try_to_execute(t_command command)
 	if (result < 0)
 	{
 		ft_error_message("command not found", command.name);
+		free(command.name);
+		ft_free_matrix(command.argv);
+		free(commands.self);
 		exit(127);
 	}
 }
 
 static pid_t	execute_command(
 	t_command command,
+	t_commands commands,
 	t_program_descriptors *descriptors,
 	int is_last_command
 )
@@ -35,48 +39,60 @@ static pid_t	execute_command(
 	process = ft_throw_to_child(
 			&try_to_execute,
 			command,
+			commands,
 			descriptors,
 			is_last_command
 			);
 	return (process);
 }
 
-static void	wait_commands(t_commands commands)
+static void	wait_commands(
+	t_commands commands,
+	t_program_descriptors descriptors
+)
 {
 	unsigned int	i;
 	int				status;
 
+	i = 0;
 	while (i < commands.length)
 	{
 		if (waitpid(commands.self[i].process, &status, 0) == -1)
-			ft_exit_error("waitpid", 1);
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
 		{
-			if (waitpid(commands.self[i].process, &status, 0) == -1)
-				ft_exit_error("waitpid", 1);
-			if (WIFEXITED(status) && i == commands.length - 1)
-				exit(WIFEXITED(status));
+			free(commands.self);
+			close(descriptors.infile_fd);
+			close(descriptors.outfile_fd);
+			ft_exit_error("waitpid", EXIT_FAILURE);
+		}
+		if (i == commands.length - 1 && WIFEXITED(status))
+		{
+			free(commands.self);
+			close(descriptors.infile_fd);
+			close(descriptors.outfile_fd);
+			exit(WEXITSTATUS(status));
 		}
 		i++;
 	}
 }
 
-static char	*execute_commands(
+static void	execute_commands(
 	t_commands commands,
 	t_program_descriptors *descriptors
 )
 {
 	unsigned int	i;
-	char			*output;
 
 	i = 0;
-	output = NULL;
 	if (pipe(descriptors->pip) == -1)
 		ft_exit_error("Could not create pipe", 1);
 	while (i < commands.length)
 	{
-		commands.self[i].process = execute_command(commands.self[i],
-				descriptors, i == commands.length - 1);
+		commands.self[i].process = execute_command(
+				commands.self[i],
+				commands,
+				descriptors,
+				i == commands.length - 1
+				);
 		close(descriptors->pip[WRITE]);
 		free(commands.self[i].name);
 		ft_free_matrix(commands.self[i].argv);
@@ -84,9 +100,8 @@ static char	*execute_commands(
 	}
 	close(descriptors->pip[READ]);
 	close(descriptors->pip[WRITE]);
-	wait_commands(commands);
+	wait_commands(commands, *descriptors);
 	free(commands.self);
-	return (output);
 }
 
 void	pipex(

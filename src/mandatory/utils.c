@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:30:47 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/09 21:28:06 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 20:58:49 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	ft_chrcnt(char *string, char c)
 }
 
 pid_t	ft_throw_to_child(
-	void (*f) (t_command command),
+	void (*f) (t_command command, t_commands commands),
 	t_command command,
+	t_commands commands,
 	t_program_descriptors *descriptors,
 	int is_last_command
 )
@@ -69,7 +70,7 @@ pid_t	ft_throw_to_child(
 		close(descriptors->outfile_fd);
 		if (descriptors->infile_fd != -1)
 			close(descriptors->infile_fd);
-		f(command);
+		f(command, commands);
 		exit(0);
 	}
 	return (pid);
