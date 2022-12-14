@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:13:13 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:30:15 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 22:10:18 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_commands(
 
 	i = 0;
 	if (pipe(descriptors->pip) == -1)
-		ft_exit_error("Could not create pipe", EXIT_FAILURE);
+		ft_exit_perror("Could not create pipe", EXIT_FAILURE);
 	while (i < commands.length)
 	{
 		commands.self[i].process = execute_command(
@@ -41,7 +41,6 @@ void	execute_commands(
 				descriptors,
 				i == commands.length - 1
 				);
-		close(descriptors->pip[WRITE]);
 		free(commands.self[i].name);
 		ft_free_matrix(commands.self[i].argv);
 		i++;
@@ -87,7 +86,7 @@ static void	wait_commands(
 			free(commands.self);
 			close(descriptors.infile_fd);
 			close(descriptors.outfile_fd);
-			ft_exit_error("waitpid", EXIT_FAILURE);
+			ft_exit_perror("waitpid", EXIT_FAILURE);
 		}
 		if (i == commands.length - 1 && WIFEXITED(status))
 		{

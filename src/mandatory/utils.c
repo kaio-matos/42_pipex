@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:30:47 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/13 21:19:52 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/13 22:10:39 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ void	ft_error(char *message)
 	perror(message);
 }
 
-void	ft_exit_error(char *message, int number)
+void	ft_exit_perror(char *message, int number)
 {
 	perror(message);
+	exit(number);
+}
+
+void	ft_exit_error(char *message, int number)
+{
+	ft_fprintf(2, "%s\n", message);
 	exit(number);
 }
 
