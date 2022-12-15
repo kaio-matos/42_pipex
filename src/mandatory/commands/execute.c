@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 21:13:13 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/14 20:15:04 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/14 21:08:21 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,16 @@ static void	wait_commands(
 		if (waitpid(commands.self[i].process, &status, 0) == -1)
 		{
 			free_commands(&commands);
-			close(descriptors.infile_fd);
+			if (descriptors.infile_fd != -1)
+				close(descriptors.infile_fd);
 			close(descriptors.outfile_fd);
 			ft_exit_perror("waitpid", EXIT_FAILURE);
 		}
 		if (i == commands.length - 1 && WIFEXITED(status))
 		{
 			free_commands(&commands);
-			close(descriptors.infile_fd);
+			if (descriptors.infile_fd != -1)
+				close(descriptors.infile_fd);
 			close(descriptors.outfile_fd);
 			exit(WEXITSTATUS(status));
 		}
