@@ -71,10 +71,11 @@ $(LIBFT):
 ################################################################################
 
 clean:
-	make fclean -C $(LIBFT_DIR)
+	make clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS_DIR)
 
 fclean: clean
+	make fclean -C $(LIBFT_DIR)
 	$(RM) $(NAME_B)
 	$(RM) $(NAME)
 
