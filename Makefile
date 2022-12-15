@@ -34,7 +34,7 @@ $(OBJS_DIR)/$(MANDATORY_DIR)/%.o: $(SRC_DIR)/$(MANDATORY_DIR)/%.c
 debug: $(LIBFT)
 	$(CC) $(CCF_DEBUG) $(CCF_INCL_MANDATORY) $(SRCS_MANDATORY) $(LIBS) -o $(NAME)
 
-test:
+rebuild:
 	@make all -C $(LIBFT_DIR) --no-print-directory
 	@$(CC) $(CCF_INCL_MANDATORY) $(SRCS_MANDATORY) $(LIBS) -o $(NAME)
 
@@ -84,7 +84,7 @@ re:	fclean all
 # CONFIGURATION
 ################################################################################
 
-.PHONY: all bonus clean libft fclean re
+.PHONY: all bonus clean libft fclean re rebuild debug
 
 ################################################################################
 # Colors
