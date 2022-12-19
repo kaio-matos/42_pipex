@@ -6,7 +6,7 @@
 /*   By: kmatos-s <kmatos-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:51:20 by kmatos-s          #+#    #+#             */
-/*   Updated: 2022/12/14 20:15:17 by kmatos-s         ###   ########.fr       */
+/*   Updated: 2022/12/15 22:24:35 by kmatos-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ static t_program_descriptors	handle_files_creation(
 			0664
 			);
 	if (descriptors.outfile_fd == -1)
+	{
+		close(descriptors.outfile_fd);
 		ft_exit_perror(outfile_name, EXIT_FAILURE);
+	}
 	return (descriptors);
 }
